@@ -9,7 +9,7 @@ class SeekingMode:
         self.distance = distance  # seeking range of dimension
         self.fitness_f = fitness_f  # fitness function
 
-    def begin_seeking_strategy(self, cat):
+    def begin_strategy(self, cat):
         candidates = []
 
         seeking_memory_pool = self.num_of_looks
@@ -25,7 +25,7 @@ class SeekingMode:
 
             for idx in dimension_indexes:
                 probability = random.random()
-                move = 1 if (probability > 0.5) else -1
+                move = 1 if (probability > 0.5) else 0
 
                 cat_child.change_position_at_index(idx, move*self.distance)
 
