@@ -17,13 +17,13 @@ if __name__ == "__main__":
     }
 
     setting = {
-        "iterations": 2,
-        "smp": 2,
+        "iterations": 5,
+        "smp": 30,
         "spc": True,
         "cdc": 2,
         "srd": 1,
         "mr": 0.30,
-        "population_size": 5,
+        "population_size": 10,
     }
 
     cso = CatSwarmOptimization(problem, setting)

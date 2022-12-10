@@ -1,3 +1,4 @@
+import copy
 from random import random
 
 from cat import Cat
@@ -29,14 +30,14 @@ class CatSwarmOptimization:
                 cats.append(Cat(self.problem_size, False).evaluate_fitness(self.fitness_evaluator))
             else:
                 cats.append(Cat(self.problem_size, True).evaluate_fitness(self.fitness_evaluator))
-        best_cat = sorted(cats, key=lambda cat: cat.fitness)[-1]
+        current_best_cat = copy.copy(sorted(cats, key=lambda cat: cat.fitness)[-1])
 
         for i in range(self.num_of_iterations):
             for idx, cat in enumerate(cats):
                 if cat.seeking_mode:
                     cats[idx] = self.seeking_mode.begin_strategy(cat)
                 else:
-                    cats[idx] = self.tracing_mode.begin_strategy(cat, best_cat)
+                    cats[idx] = self.tracing_mode.begin_strategy(cat, current_best_cat)
 
                 cats[idx] = cats[idx].evaluate_fitness(self.fitness_evaluator)
 
@@ -47,8 +48,10 @@ class CatSwarmOptimization:
                     cat.seeking_mode = True
 
             best_cat = sorted(cats, key=lambda cat: cat.fitness)[-1]
-        print(best_cat.position)
-        print(best_cat.fitness)
+            if current_best_cat.fitness < best_cat.fitness:
+                current_best_cat = copy.copy(best_cat)
+        print(current_best_cat.position)
+        print(current_best_cat.fitness)
         print(self.clauses_count)
 
                 # print(cats[j].fitness)
