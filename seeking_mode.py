@@ -3,47 +3,44 @@ import random
 
 class SeekingMode:
     def __init__(self, can_stay, num_of_looks, num_of_dimensions_to_change, distance, fitness_f):
-        self.can_stay = can_stay
-        self.num_of_looks = num_of_looks
-        self.look_variety = num_of_dimensions_to_change
-        self.distance = distance
-        self.fitness_f = fitness_f
+        self.spc = can_stay  # self position considering
+        self.num_of_looks = num_of_looks  # seeking memory pool
+        self.cdc = num_of_dimensions_to_change  # count of dimensions to change
+        self.distance = distance  # seeking range of dimension
+        self.fitness_f = fitness_f  # fitness function
 
-    def find_best_move(self, cat):
-        options = []
+    def begin_seeking_strategy(self, cat):
+        candidates = []
 
-        cat_length = self.num_of_looks
+        seeking_memory_pool = self.num_of_looks
 
-        for i in range(cat_length):
-            options.append(cat.deepcopy())
+        for i in range(seeking_memory_pool):
+            candidates.append(cat.deepcopy())
 
-        if self.can_stay:
-            cat_length -= 1
+        if self.spc:
+            seeking_memory_pool -= 1
 
-        move_result = []
-        for index, cat_look in enumerate(options[0:cat_length]):
-            dimension_indexes = random.sample(range(len(cat_look.position)), self.look_variety)
+        for index, cat_child in enumerate(candidates[0:seeking_memory_pool]):
+            dimension_indexes = random.sample(range(len(cat_child.position)), self.cdc)
 
             for idx in dimension_indexes:
                 probability = random.random()
                 move = 1 if (probability > 0.5) else -1
 
-                cat_look.position[idx] += (move * self.distance)
+                cat_child.change_position_at_index(idx, move*self.distance)
 
-            options[index] = cat_look
-            move_result.append(self.fitness_f(cat_look))
-
-        if self.can_stay:
-            move_result.append(self.fitness_f(options[-1]))
+            cat_child.evaluate_fitness(self.fitness_f)
+            candidates[index] = cat_child
 
         same = True
 
-        for value in move_result:
-            if value != move_result[0]:
+        fitness_values = [cat.fitness for cat in candidates]
+        for value in fitness_values:
+            if value != fitness_values[0]:
                 same = False
                 break
 
         if same:
-            return random.choice(options)
+            return random.choice(candidates)
         else:
-            return options[move_result.index(max(move_result))]
+            return sorted(candidates, key=lambda cat: cat.fitness)[-1]
