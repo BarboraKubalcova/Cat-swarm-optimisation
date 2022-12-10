@@ -32,7 +32,8 @@ class CatSwarmOptimization:
                 cats.append(Cat(self.problem_size, True).evaluate_fitness(self.fitness_evaluator))
         current_best_cat = copy.copy(sorted(cats, key=lambda cat: cat.fitness)[-1])
 
-        for i in range(self.num_of_iterations):
+        i = 0
+        while i < self.num_of_iterations:
             for idx, cat in enumerate(cats):
                 if cat.seeking_mode:
                     cats[idx] = self.seeking_mode.begin_strategy(cat)
@@ -50,12 +51,11 @@ class CatSwarmOptimization:
             best_cat = sorted(cats, key=lambda cat: cat.fitness)[-1]
             if current_best_cat.fitness < best_cat.fitness:
                 current_best_cat = copy.copy(best_cat)
+            i += 1
+
         print(current_best_cat.position)
         print(current_best_cat.fitness)
         print(self.clauses_count)
 
-                # print(cats[j].fitness)
-                # print(cats[j].position)
-                # print()
 
 
