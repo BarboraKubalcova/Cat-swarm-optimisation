@@ -1,13 +1,14 @@
 import random
+import copy
 
 
 class SeekingMode:
-    def __init__(self, can_stay, num_of_looks, num_of_dimensions_to_change, distance, fitness_f):
+    def __init__(self, can_stay, num_of_looks, num_of_dimensions_to_change, distance, fitness_eval):
         self.spc = can_stay  # self position considering
         self.num_of_looks = num_of_looks  # seeking memory pool
         self.cdc = num_of_dimensions_to_change  # count of dimensions to change
         self.distance = distance  # seeking range of dimension
-        self.fitness_f = fitness_f  # fitness function
+        self.fitness_eval = fitness_eval  # fitness function
 
     def begin_strategy(self, cat):
         candidates = []
@@ -15,7 +16,7 @@ class SeekingMode:
         seeking_memory_pool = self.num_of_looks
 
         for i in range(seeking_memory_pool):
-            candidates.append(cat.deepcopy())
+            candidates.append(copy.copy(cat))
 
         if self.spc:
             seeking_memory_pool -= 1
@@ -29,7 +30,7 @@ class SeekingMode:
 
                 cat_child.change_position_at_index(idx, move*self.distance)
 
-            cat_child.evaluate_fitness(self.fitness_f)
+            cat_child.evaluate_fitness(self.fitness_eval)
             candidates[index] = cat_child
 
         same = True

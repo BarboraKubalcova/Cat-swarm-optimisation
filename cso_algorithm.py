@@ -20,7 +20,7 @@ class CatSwarmOptimization:
         self.mr = cso_setting["mr"]
         self.population_size = cso_setting["population_size"]
         self.seeking_mode = SeekingMode(self.spc, self.smp, self.cdc, self.srd, self.fitness_evaluator)
-        self.tracing_mode = TracingMode()
+        self.tracing_mode = TracingMode(self.clauses_count)
 
     def magic(self):
         cats = []
@@ -32,11 +32,24 @@ class CatSwarmOptimization:
         best_cat = sorted(cats, key=lambda cat: cat.fitness)[-1]
 
         for i in range(self.num_of_iterations):
-            for cat in cats:
+            for idx, cat in enumerate(cats):
                 if cat.seeking_mode:
-                    self.seeking_mode.begin_strategy(cat)
+                    cats[idx] = self.seeking_mode.begin_strategy(cat)
                 else:
-                    self.tracing_mode.begin_strategy(cat, best_cat)
+                    cats[idx] = self.tracing_mode.begin_strategy(cat, best_cat)
+
+                cats[idx] = cats[idx].evaluate_fitness(self.fitness_evaluator)
+
+            for cat in cats:
+                if random() < self.mr:
+                    cat.seeking_mode = False
+                else:
+                    cat.seeking_mode = True
+
+            best_cat = sorted(cats, key=lambda cat: cat.fitness)[-1]
+        print(best_cat.position)
+        print(best_cat.fitness)
+        print(self.clauses_count)
 
                 # print(cats[j].fitness)
                 # print(cats[j].position)

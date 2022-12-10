@@ -1,6 +1,7 @@
 # main method
+from cat import Cat
 from cso_algorithm import CatSwarmOptimization
-
+from fitness_evaluator import FitnessEvaluator
 
 if __name__ == "__main__":
     problem = {
@@ -16,8 +17,8 @@ if __name__ == "__main__":
     }
 
     setting = {
-        "iterations": 5,
-        "smp": 30,
+        "iterations": 2,
+        "smp": 2,
         "spc": True,
         "cdc": 2,
         "srd": 1,
@@ -28,4 +29,8 @@ if __name__ == "__main__":
     cso = CatSwarmOptimization(problem, setting)
     cso.magic()
     print(problem)
+
+    cat = Cat(5, False)
+    cat.position = [1, 1, 1, 1, 1]
+    cat.evaluate_fitness(FitnessEvaluator(problem))
 
