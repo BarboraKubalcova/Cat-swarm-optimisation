@@ -1,14 +1,14 @@
 class FitnessEvaluator:
-    def __init__(self, clauses):
-        self.clauses = clauses
+    def __init__(self, problem):
+        self.problem = problem
 
     def get_fitness(self, cat):
-        count = self.clauses["count"]
-        size = self.clauses["size"]
+        count = self.problem["count"]
+        size = self.problem["size"]
         result_count = 0
         for i in range(1, count+1):
             for j in range(size):
-                if self.clauses[i][j] == cat.position[j]:
+                if self.problem[i][j] == cat.position[j]:
                     result_count += 1
                     break
 
