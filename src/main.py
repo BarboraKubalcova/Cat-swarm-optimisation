@@ -5,25 +5,25 @@ from fitness_evaluator import FitnessEvaluator
 
 if __name__ == "__main__":
     problem = {
-        "size": 5,
+        "size": 6,
         "count": 7,
-        1:  [0, 0, None, None, None],
-        2: [0, None, 0, None, None],
-        3: [None, 0, 0, None, None],
-        4: [None, None, None, 0, None],
-        5: [None, None, None, 0, 0],
-        6: [None, 1, 0, 1, None],
-        7: [0, None, None, 0, None],
+        1:  [0, 0, None, None, None, 1],
+        2: [0, None, 0, None, None, 0],
+        3: [None, 0, 0, None, None, 1],
+        4: [None, None, None, 0, None, 0],
+        5: [None, None, None, 0, 0, 1],
+        6: [None, 1, 0, 1, None, 0],
+        7: [0, None, None, 0, None, 1],
     }
 
     setting = {
         "iterations": 5,
-        "smp": 30,
+        "smp": 3,
         "spc": True,
         "cdc": 2,
         "srd": 1,
-        "mr": 0.30,
-        "population_size": 10,
+        "mr": 0.33,
+        "population_size": 3,
     }
 
     cso = CatSwarmOptimization(problem, setting)
@@ -31,6 +31,6 @@ if __name__ == "__main__":
     print(problem)
 
     cat = Cat(5, False)
-    cat.position = [1, 1, 1, 1, 1]
+    cat.position = [1, 0, 1, 0, 0, 1]
     cat.evaluate_fitness(FitnessEvaluator(problem))
 

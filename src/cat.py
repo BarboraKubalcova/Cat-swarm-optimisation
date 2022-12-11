@@ -15,6 +15,13 @@ class Cat:
         self.fitness = fitness_eval.get_fitness(self)
         return self
 
+    def copy_self(self):
+        copycat = Cat(len(self.position), self.seeking_mode)
+        copycat.position = self.position[:]
+        copycat.fitness = self.fitness
+        return copycat
+
+
 
 
 

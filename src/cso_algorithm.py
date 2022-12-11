@@ -1,4 +1,3 @@
-import copy
 from random import random
 
 from cat import Cat
@@ -30,7 +29,7 @@ class CatSwarmOptimization:
                 cats.append(Cat(self.problem_size, False).evaluate_fitness(self.fitness_evaluator))
             else:
                 cats.append(Cat(self.problem_size, True).evaluate_fitness(self.fitness_evaluator))
-        current_best_cat = copy.copy(sorted(cats, key=lambda cat: cat.fitness)[-1])
+        current_best_cat = sorted(cats, key=lambda cat: cat.fitness)[-1].copy_self()
 
         i = 0
         while i < self.num_of_iterations:
@@ -50,7 +49,7 @@ class CatSwarmOptimization:
 
             best_cat = sorted(cats, key=lambda cat: cat.fitness)[-1]
             if current_best_cat.fitness < best_cat.fitness:
-                current_best_cat = copy.copy(best_cat)
+                current_best_cat = best_cat.copy_self()
             i += 1
 
         print(current_best_cat.position)

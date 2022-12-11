@@ -1,5 +1,4 @@
 import random
-import copy
 
 
 class SeekingMode:
@@ -16,7 +15,7 @@ class SeekingMode:
         seeking_memory_pool = self.num_of_looks
 
         for i in range(seeking_memory_pool):
-            candidates.append(copy.copy(cat))
+            candidates.append(cat.copy_self())
 
         if self.spc:
             seeking_memory_pool -= 1
@@ -30,8 +29,7 @@ class SeekingMode:
 
                 cat_child.change_position_at_index(idx, move*self.distance)
 
-            cat_child.evaluate_fitness(self.fitness_eval)
-            candidates[index] = cat_child
+            candidates[index] = cat_child.evaluate_fitness(self.fitness_eval)
 
         same = True
 
