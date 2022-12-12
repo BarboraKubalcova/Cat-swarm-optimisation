@@ -1,4 +1,5 @@
 from random import random
+import copy
 
 from cat import Cat
 from fitness_evaluator import FitnessEvaluator
@@ -7,7 +8,6 @@ from tracing_mode import TracingMode
 
 
 class CatSwarmOptimization:
-
     def __init__(self, maxsat_problem, cso_setting):
         self.fitness_evaluator = FitnessEvaluator(maxsat_problem)
         self.problem_size = maxsat_problem["size"]
@@ -57,8 +57,4 @@ class CatSwarmOptimization:
             i += 1
 
         print(f"Best cat position: {best_cat.position}\nBest cat fitness: {best_cat.fitness}\n")
-        return best_cat.fitness == self.clauses_count
-
-
-
-
+        return best_cat.fitness == self.clauses_count, copy.deepcopy(best_cat), i
